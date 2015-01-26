@@ -1,5 +1,5 @@
 # Sorting Special
-Please use GCC Compiler with C++11 Standard.
+Please use G++ Compiler with C++11 Standard.
 
 > g++ sort.h bst.h sortmain.cpp --std=c++11
 
