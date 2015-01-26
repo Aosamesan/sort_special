@@ -1,7 +1,12 @@
 # Sorting Special
 Please use G++ Compiler with C++11 Standard.
 
-> g++ sort.h bst.h sortmain.cpp --std=c++11
+> cd SortSeries && make
+
+#### Makefile
+```
+g++ sort.h bst.h sortmain.cpp --std=c++11
+```
 
 #### Example
 
