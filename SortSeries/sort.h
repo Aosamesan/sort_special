@@ -6,7 +6,10 @@
 #include<chrono>
 #include<cstdlib>
 #include<string>
-#define BIGNUMBER 30000
+#include"bst.h"
+#define BIGNUMBER 40000
+#define UNABLEQUAD 30000
+#define NUMOFSORTS 5
 using namespace std;
 
 namespace Painter{
@@ -138,8 +141,8 @@ namespace Painter{
 			time_t startTime = time(NULL);
 			tm start;
 			localtime_s(&start, &startTime);
-			char str[17] = { 0, };
-			sprintf_s(str, "\tStart : %d:%d:%d", start.tm_hour, start.tm_min, start.tm_sec, 17);
+			char str[30] = { 0, };
+			sprintf_s(str, "\tStart : %02d:%02d:%02d", start.tm_hour, start.tm_min, start.tm_sec, 30);
 
 			os << "¦¢" << setw(20) << left << "" << "¦¢" <<
 				setw(23) << left << str << "¦¢" <<
@@ -150,8 +153,8 @@ namespace Painter{
 			time_t endTime = time(NULL);
 			tm end;
 			localtime_s(&end, &endTime);
-			char str[17] = { 0, };
-			sprintf_s(str, "\tEnd   : %d:%d:%d", end.tm_hour, end.tm_min, end.tm_sec, 17);
+			char str[30] = { 0, };
+			sprintf_s(str, "\tEnd   : %02d:%02d:%02d", end.tm_hour, end.tm_min, end.tm_sec, 30);
 
 			os << "¦¢" << setw(20) << left << "" << "¦¢" <<
 				setw(23) << left << str << "¦¢" <<
@@ -249,7 +252,7 @@ namespace Sorts{
 		return true;
 	};
 
-	auto bubbleSort = [](vector<int> vec, int size){
+	auto bubbleSort = [](vector<int> vec, int size) -> bool{
 		for (int i = size - 1; i > 0; i--)
 			for (int j = 0; j < i; j++){
 				if (vec[j] > vec[j + 1]){
@@ -262,7 +265,7 @@ namespace Sorts{
 		return isSorted(vec);
 	};
 
-	auto selectionSort = [](vector<int> vec, int size){
+	auto selectionSort = [](vector<int> vec, int size)-> bool{
 		int minIdx;
 
 		for (int i = 0; i < size - 1; i++){
@@ -280,7 +283,7 @@ namespace Sorts{
 		return isSorted(vec);
 	};
 
-	auto insertionSort = [](vector<int> vec, int size){
+	auto insertionSort = [](vector<int> vec, int size)-> bool{
 		int rem;
 		int j;
 
@@ -331,8 +334,24 @@ namespace Sorts{
 			quickSortRecursive(vec, pivot + 1, right);
 	}
 
-	auto quickSort = [](vector<int> vec, int size){
+	auto quickSort = [](vector<int> vec, int size)-> bool{
 		quickSortRecursive(vec, 0, size - 1);
+
+		return isSorted(vec);
+	};
+
+	auto BSTSort = [](vector<int> vec, int size)-> bool{
+		BSTree<int> tree;
+		auto push = [&vec](int n){
+			vec.push_back(n);
+		};
+
+		for (int i : vec){
+			tree.Insert(i);
+		}
+		vec.clear();
+		
+		tree.BSTSort(push);
 
 		return isSorted(vec);
 	};
@@ -387,19 +406,37 @@ namespace Sorts{
 
 	ostream& operator<<(ostream& os, PrintSorter& ps){
 		if (ps.size > 0){
-			long long laps[4] = { Sorter(ps.arr, bubbleSort),
-				Sorter(ps.arr, selectionSort),
-				Sorter(ps.arr, insertionSort),
-				Sorter(ps.arr, quickSort) };
-			const char* sorts[4] = { "Bubble Sort", "Selection Sort", "Insertion Sort", "Quick Sort" };
+			long long lap;
+			const char* sortnames[] = { "Bubble Sort", "Selection Sort", "Insertion Sort", "Quick Sort", "BST Sort" };
 
-			for (int i = 0; i < 4; i++){
-				os << "¦¢" << setw(20) << left << sorts[i] << "¦¢" <<
-					right << setw(8) << (laps[i] / 1000000000) % 1000 << "s " << setw(3) << (laps[i] / 1000000) % 1000 << "ms " <<
-					setw(3) << (laps[i] / 1000) % 1000 << "mis " <<
-					setw(3) << laps[i] % 1000 << "ns" << setw(4) << "¦¢" << setw(20) << ps.size << "¦¢";
-				if (i != 3)
-					os << endl;
+
+			for (int i = 0; i < NUMOFSORTS; i++){
+				if (((strstr(sortnames[i], "Bubble") != NULL || strstr(sortnames[i], "Selection") != NULL || strstr(sortnames[i], "Insertion") != NULL) && ps.size <= UNABLEQUAD)
+					|| (strstr(sortnames[i], "Quick") != NULL || strstr(sortnames[i], "BST") != NULL)){
+					switch (i){
+					case 0:
+						lap = Sorter(ps.arr, bubbleSort);
+						break;
+					case 1:
+						lap = Sorter(ps.arr, selectionSort);
+						break;
+					case 2:
+						lap = Sorter(ps.arr, insertionSort);
+						break;
+					case 3:
+						lap = Sorter(ps.arr, quickSort);
+						break;
+					case 4:
+						lap = Sorter(ps.arr, BSTSort);
+						break;
+					}
+					os << "¦¢" << setw(20) << left << sortnames[i] << "¦¢" <<
+						right << setw(8) << (lap / 1000000000) % 1000 << "s " << setw(3) << (lap / 1000000) % 1000 << "ms " <<
+						setw(3) << (lap / 1000) % 1000 << "mis " <<
+						setw(3) << lap % 1000 << "ns" << setw(4) << "¦¢" << setw(20) << ps.size << "¦¢";
+					if (i != NUMOFSORTS - 1)
+						os << endl;
+				}
 			}
 		}
 
