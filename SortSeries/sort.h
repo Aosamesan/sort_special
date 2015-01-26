@@ -5,7 +5,7 @@
 #include<ctime>
 #include<chrono>
 #include<cstdlib>
-#include<string>
+#include<cstring>
 #include"bst.h"
 #define BIGNUMBER 40000
 #define UNABLEQUAD 30000
@@ -79,87 +79,84 @@ namespace Painter{
 				|| fp.focus == FramePainter::Focus::BOTTOM
 				){
 			if (fp.focus == FramePainter::Focus::TOP)
-				os << "¦£";
+				os << "â”Œ";
 			else if (fp.focus == FramePainter::Focus::MIDDLE)
-				os << "¦§";
+				os << "â”œ";
 			else if (fp.focus == FramePainter::Focus::SMIDDLE)
-				os << "¦¼";
+				os << "â”";
 			else
-				os << "¦¦";
+				os << "â””";
 
-			for (int i = 0; i < 10; i++)
+			for (int i = 0; i < 20; i++)
 				if (fp.focus != FramePainter::Focus::SMIDDLE)
-					os << "¦¡";
+					os << "â”€";
 				else
-					os << "¦¬";
+					os << "â”";
 
 			if (fp.focus == FramePainter::Focus::TOP)
-				os << "¦¨";
+				os << "â”¬";
 			else if (fp.focus == FramePainter::Focus::MIDDLE)
-				os << "¦«";
+				os << "â”¼";
 			else if (fp.focus == FramePainter::Focus::SMIDDLE)
-				os << "¦»";
+				os << "â”¿";
 			else
-				os << "¦ª";
+				os << "â”´";
 
-			for (int i = 0; i < 15; i++)
+			for (int i = 0; i < 30; i++)
 				if (fp.focus != FramePainter::Focus::SMIDDLE)
-					os << "¦¡";
+					os << "â”€";
 				else
-					os << "¦¬";
+					os << "â”";
 
 			if (fp.focus == FramePainter::Focus::TOP)
-				os << "¦¨";
+				os << "â”¬";
 			else if (fp.focus == FramePainter::Focus::MIDDLE)
-				os << "¦«";
+				os << "â”¼";
 			else if (fp.focus == FramePainter::Focus::SMIDDLE)
-				os << "¦»";
+				os << "â”¿";
 			else
-				os << "¦ª";
+				os << "â”´";
 
-			for (int i = 0; i < 10; i++)
+			for (int i = 0; i < 20; i++)
 				if (fp.focus != FramePainter::Focus::SMIDDLE)
-					os << "¦¡";
+					os << "â”€";
 				else
-					os << "¦¬";
+					os << "â”";
 
 			if (fp.focus == FramePainter::Focus::TOP)
-				os << "¦¤";
+				os << "â”";
 			else if (fp.focus == FramePainter::Focus::MIDDLE)
-				os << "¦©";
+				os << "â”¤";
 			else if (fp.focus == FramePainter::Focus::SMIDDLE)
-				os << "¦¾";
+				os << "â”¥";
 			else
-				os << "¦¥";
+				os << "â”˜";
 		}
 		else if (fp.focus == FramePainter::Focus::HEADER){
-			os << "¦¢" << setw(20) << left << "Sort Name" << "¦¢" <<
-				setw(30) << left << "Time Interval" << "¦¢" <<
-				setw(20) << left << "Size" << "¦¢";
+			os << "â”‚" << setw(20) << left << "Sort Name" << "â”‚" <<
+				setw(30) << left << "Time Interval" << "â”‚" <<
+				setw(20) << left << "Size" << "â”‚";
 		}
 		else if (fp.focus == FramePainter::Focus::STARTTIME){
 			time_t startTime = time(NULL);
-			tm start;
-			localtime_s(&start, &startTime);
+			tm * start = localtime(&startTime);
 			char str[30] = { 0, };
-			sprintf_s(str, "\tStart : %02d:%02d:%02d", start.tm_hour, start.tm_min, start.tm_sec, 30);
+			sprintf(str, " Start : %02d:%02d:%02d", start->tm_hour, start->tm_min, start->tm_sec);
 
-			os << "¦¢" << setw(20) << left << "" << "¦¢" <<
-				setw(23) << left << str << "¦¢" <<
-				setw(20) << left << "" << "¦¢";
+			os << "â”‚" << setw(20) << left << "" << "â”‚" <<
+				setw(30) << left << str << "â”‚" <<
+				setw(20) << left << "" << "â”‚";
 
 		}
 		else if (fp.focus == FramePainter::Focus::ENDTIME){
 			time_t endTime = time(NULL);
-			tm end;
-			localtime_s(&end, &endTime);
+			tm * end = localtime(&endTime);
 			char str[30] = { 0, };
-			sprintf_s(str, "\tEnd   : %02d:%02d:%02d", end.tm_hour, end.tm_min, end.tm_sec, 30);
+			sprintf(str, " End   : %02d:%02d:%02d", end->tm_hour, end->tm_min, end->tm_sec);
 
-			os << "¦¢" << setw(20) << left << "" << "¦¢" <<
-				setw(23) << left << str << "¦¢" <<
-				setw(20) << left << "" << "¦¢";
-
+			os << "â”‚" << setw(20) << left << "" << "â”‚" <<
+				setw(30) << left << str << "â”‚" <<
+				setw(20) << left << "" << "â”‚";
 		}
 
 		return os;
@@ -430,10 +427,10 @@ namespace Sorts{
 						lap = Sorter(ps.arr, BSTSort);
 						break;
 					}
-					os << "¦¢" << setw(20) << left << sortnames[i] << "¦¢" <<
+					os << "â”‚" << setw(20) << left << sortnames[i] << "â”‚" <<
 						right << setw(8) << (lap / 1000000000) % 1000 << "s " << setw(3) << (lap / 1000000) % 1000 << "ms " <<
 						setw(3) << (lap / 1000) % 1000 << "mis " <<
-						setw(3) << lap % 1000 << "ns" << setw(4) << "¦¢" << setw(20) << ps.size << "¦¢";
+						setw(3) << lap % 1000 << "ns" << setw(5) << "â”‚" << setw(20) << ps.size << "â”‚";
 					if (i != NUMOFSORTS - 1)
 						os << endl;
 				}
