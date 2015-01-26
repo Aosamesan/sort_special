@@ -1,7 +1,7 @@
 # Sorting Special
 Please use GCC Compiler with C++11 Standard.
 
-> gcc sort.h bst.h sortmain.cpp --std=c++11
+> g++ sort.h bst.h sortmain.cpp --std=c++11
 
 #### Example
 
