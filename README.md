@@ -4,3 +4,4 @@ Sorting Special (Visual Studio 2013)
 # Selection Sort
 # Insertion Sort
 # Quick Sort
+# Sorting by Binary Search Tree
