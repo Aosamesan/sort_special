@@ -25,7 +25,7 @@ g++ sort.h bst.h sortmain.cpp --std=c++11
 </div>
 </tr>
 </table>
-
+<br/>
 * **Redirection**
 <table>
 <tr>
