@@ -10,7 +10,7 @@ g++ sort.h bst.h sortmain.cpp --std=c++11
 
 #### Example
 
-* ##### Normal
+* **Normal**
 <table>
 <tr>
 * Input
@@ -20,11 +20,13 @@ g++ sort.h bst.h sortmain.cpp --std=c++11
 1000
 10000</pre>
 * Output
+<div>
 ![EXAMPLE1](https://github.com/Aosamesan/sort_special/blob/master/EXAMPLE1.PNG)
+</div>
 </tr>
 </table>
 
-* ##### Redirection
+* **Redirection**
 <table>
 <tr>
 * test.txt
@@ -35,7 +37,9 @@ g++ sort.h bst.h sortmain.cpp --std=c++11
 100000
 1000000</pre>
 * Output
+<div>
 ![EXAMPLE2](https://github.com/Aosamesan/sort_special/blob/master/EXAMPLE2.PNG)
+</div>
 </tr>
 </table>
 
