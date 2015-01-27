@@ -15,10 +15,11 @@ g++ sort.h bst.h sortmain.cpp --std=c++11
 <tr>
 * Input
 <pre>
-3
+4
 100
 1000
-10000</pre>
+10000
+100000</pre>
 * Output
 <div>
 ![EXAMPLE1](https://github.com/Aosamesan/sort_special/blob/master/EXAMPLE1.PNG)
@@ -32,10 +33,10 @@ g++ sort.h bst.h sortmain.cpp --std=c++11
 * test.txt
 <pre>
 4
-1000
+10
 10000
 100000
-1000000</pre>
+500000</pre>
 * Output
 <div>
 ![EXAMPLE2](https://github.com/Aosamesan/sort_special/blob/master/EXAMPLE2.PNG)
