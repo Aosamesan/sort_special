@@ -9,7 +9,6 @@
 #include"bst.h"
 #define BIGNUMBER 40000
 #define UNABLEQUAD 30000
-#define NUMOFSORTS 5
 using namespace std;
 
 namespace Painter{
@@ -239,6 +238,25 @@ namespace Sorts{
 	using namespace UnsortedList;
 	using namespace Painter;
 
+	const char* SORT_NAMES[] = {
+		"Bubble Sort",
+		"Selection Sort",
+		"Insertion Sort",
+		"Sorting by BST",
+		"Quick Sort",
+		"Merge Sort"
+	};
+
+	const unsigned short BUBBLE_SORT = 0;
+	const unsigned short SELECTION_SORT = 1;
+	const unsigned short INSERTION_SORT = 2;
+	const unsigned short SORT_BY_BST = 3;
+	const unsigned short QUICK_SORT = 4;
+	const unsigned short MERGE_SORT = 5;
+
+	const unsigned int NUM_OF_SORTS = 6;
+
+
 	auto isSorted = [](vector<int>& vec) -> bool {
 		int size = vec.size();
 		for (int i = 0; i < size - 1; i++){
@@ -353,6 +371,57 @@ namespace Sorts{
 		return isSorted(vec);
 	};
 
+	void merge(vector<int>& vec, int left, int right){
+		int mid = (left + right) / 2;
+
+		vector<int> tVec;
+
+		int i = left;
+		int j = mid;
+		int input;
+		
+		while(i < mid && j < right){
+			input = (vec[i] < vec[j]) ? vec[i++] : vec[j++];
+			tVec.push_back(input);
+		}
+
+		while(i < mid)
+			tVec.push_back(vec[i++]);
+		while(j < right)
+			tVec.push_back(vec[j++]);
+
+		for(i = 0; i < tVec.size(); i++){
+			vec[i + left] = tVec[i];
+		}
+	}
+
+	void mergeSortRecursive(vector<int>& vec, int left, int right){
+		try{
+			if(right - left < 2)
+				return;
+			if(left < right){
+				int mid = (left + right) / 2 ;
+
+				mergeSortRecursive(vec, left, mid);
+				mergeSortRecursive(vec, mid, right);
+
+				merge(vec, left, right);
+			}
+		} catch(exception e){
+			for(auto i : vec)
+				cout << i << ", ";
+			cout << endl;
+		}
+	}
+
+	auto mergeSort = [](vector<int> vec, int size) -> bool{
+		mergeSortRecursive(vec, 0, size);
+
+		merge(vec, 0, size);
+
+		return isSorted(vec);
+	};
+
 	template<typename T>
 	long long Sorter(vector<int>& vec, T sortFunc){
 		int size = vec.size();
@@ -404,34 +473,36 @@ namespace Sorts{
 	ostream& operator<<(ostream& os, PrintSorter& ps){
 		if (ps.size > 0){
 			long long lap;
-			const char* sortnames[] = { "Bubble Sort", "Selection Sort", "Insertion Sort", "Quick Sort", "BST Sort" };
 
-
-			for (int i = 0; i < NUMOFSORTS; i++){
-				if (((strstr(sortnames[i], "Bubble") != NULL || strstr(sortnames[i], "Selection") != NULL || strstr(sortnames[i], "Insertion") != NULL) && ps.size <= UNABLEQUAD)
-					|| (strstr(sortnames[i], "Quick") != NULL || strstr(sortnames[i], "BST") != NULL)){
+			for (int i = 0; i < NUM_OF_SORTS; i++){
+				if (((i == BUBBLE_SORT || i == SELECTION_SORT || i == INSERTION_SORT) && ps.size <= UNABLEQUAD)
+					|| (i == SORT_BY_BST || i == QUICK_SORT || i == MERGE_SORT)){
 					switch (i){
-					case 0:
+					case BUBBLE_SORT:
 						lap = Sorter(ps.arr, bubbleSort);
 						break;
-					case 1:
+					case SELECTION_SORT:
 						lap = Sorter(ps.arr, selectionSort);
 						break;
-					case 2:
+					case INSERTION_SORT:
 						lap = Sorter(ps.arr, insertionSort);
 						break;
-					case 3:
+					case QUICK_SORT:
 						lap = Sorter(ps.arr, quickSort);
 						break;
-					case 4:
+					case SORT_BY_BST:
 						lap = Sorter(ps.arr, BSTSort);
 						break;
+					case MERGE_SORT:
+						lap = Sorter(ps.arr, mergeSort);
+						break;
 					}
-					os << "│" << setw(20) << left << sortnames[i] << "│" <<
+
+					os << "│" << setw(20) << left <<SORT_NAMES[i] << "│" <<
 						right << setw(8) << (lap / 1000000000) % 1000 << "s " << setw(3) << (lap / 1000000) % 1000 << "ms " <<
 						setw(3) << (lap / 1000) % 1000 << "mis " <<
 						setw(3) << lap % 1000 << "ns" << setw(5) << "│" << setw(20) << ps.size << "│";
-					if (i != NUMOFSORTS - 1)
+					if (i != NUM_OF_SORTS - 1)
 						os << endl;
 				}
 			}
