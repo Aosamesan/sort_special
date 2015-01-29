@@ -51,3 +51,4 @@ g++ sort.h bst.h sortmain.cpp --std=c++11
 4. Quick Sort
 5. Sorting by *Binary Search Tree*
 6. Merge Sort
+7. Heap Sort
