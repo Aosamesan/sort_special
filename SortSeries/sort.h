@@ -244,7 +244,8 @@ namespace Sorts{
 		"Insertion Sort",
 		"Sorting by BST",
 		"Quick Sort",
-		"Merge Sort"
+		"Merge Sort",
+		"Heap Sort"
 	};
 
 	const unsigned short BUBBLE_SORT = 0;
@@ -253,8 +254,9 @@ namespace Sorts{
 	const unsigned short SORT_BY_BST = 3;
 	const unsigned short QUICK_SORT = 4;
 	const unsigned short MERGE_SORT = 5;
+	const unsigned short HEAP_SORT = 6;
 
-	const unsigned int NUM_OF_SORTS = 6;
+	const unsigned int NUM_OF_SORTS = 7;
 
 
 	auto isSorted = [](vector<int>& vec) -> bool {
@@ -422,6 +424,58 @@ namespace Sorts{
 		return isSorted(vec);
 	};
 
+	void siftDown(vector<int>& vec, int start, int end){
+		int root = start;
+		int child, swap, tmp;
+
+		while(root * 2 + 1 <= end){
+			child = 2 * root + 1;
+			swap = root;
+
+			if(vec[swap] < vec[child])
+				swap = child;
+
+			if(child < end && vec[swap] < vec[child + 1])
+				swap = child + 1;
+
+			if(swap == root)
+				return;
+			else{
+				tmp = vec[root];
+				vec[root] = vec[swap];
+				vec[swap] = tmp;
+
+				root = swap;
+			}
+		}
+	}
+
+	void heapify(vector<int>& vec){
+		int start = (vec.size() - 2) / 2;
+		int end = vec.size() - 1;
+
+		while(start >= 0){
+			siftDown(vec, start, end);
+			start--;
+		}
+	}
+
+	auto heapSort = [](vector<int> & vec, int size) -> bool{
+		int end = size - 1;
+		int tmp;
+
+		heapify(vec);
+
+		while(end > 0){
+			tmp = vec[end];
+			vec[end] = vec[0];
+			vec[0] = tmp;
+
+			end--;
+			siftDown(vec, 0, end);
+		}
+	};
+
 	template<typename T>
 	long long Sorter(vector<int>& vec, T sortFunc){
 		int size = vec.size();
@@ -476,7 +530,7 @@ namespace Sorts{
 
 			for (int i = 0; i < NUM_OF_SORTS; i++){
 				if (((i == BUBBLE_SORT || i == SELECTION_SORT || i == INSERTION_SORT) && ps.size <= UNABLEQUAD)
-					|| (i == SORT_BY_BST || i == QUICK_SORT || i == MERGE_SORT)){
+					|| (i == SORT_BY_BST || i == QUICK_SORT || i == MERGE_SORT || i == HEAP_SORT)){
 					switch (i){
 					case BUBBLE_SORT:
 						lap = Sorter(ps.arr, bubbleSort);
@@ -495,6 +549,9 @@ namespace Sorts{
 						break;
 					case MERGE_SORT:
 						lap = Sorter(ps.arr, mergeSort);
+						break;
+					case HEAP_SORT:
+						lap = Sorter(ps.arr, heapSort);
 						break;
 					}
 
