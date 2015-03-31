@@ -6,6 +6,7 @@
 #include<chrono>
 #include<cstdlib>
 #include<cstring>
+#include<stack>
 #include"bst.h"
 #define BIGNUMBER 40000
 #define UNABLEQUAD 30000
@@ -242,6 +243,7 @@ namespace Sorts{
 		"Bubble Sort",
 		"Selection Sort",
 		"Insertion Sort",
+		"Stack Sort",
 		"Sorting by BST",
 		"Quick Sort",
 		"Merge Sort",
@@ -251,12 +253,13 @@ namespace Sorts{
 	const unsigned short BUBBLE_SORT = 0;
 	const unsigned short SELECTION_SORT = 1;
 	const unsigned short INSERTION_SORT = 2;
-	const unsigned short SORT_BY_BST = 3;
-	const unsigned short QUICK_SORT = 4;
-	const unsigned short MERGE_SORT = 5;
-	const unsigned short HEAP_SORT = 6;
+	const unsigned short STACK_SORT = 3;
+	const unsigned short SORT_BY_BST = 4;
+	const unsigned short QUICK_SORT = 5;
+	const unsigned short MERGE_SORT = 6;
+	const unsigned short HEAP_SORT = 7;
 
-	const unsigned int NUM_OF_SORTS = 7;
+	const unsigned int NUM_OF_SORTS = 8;
 
 
 	auto isSorted = [](vector<int>& vec) -> bool {
@@ -475,6 +478,40 @@ namespace Sorts{
 			siftDown(vec, 0, end);
 		}
 	};
+	auto stackSort = [](vector<int> vec, int size) -> bool{
+		stack<int> sortedStack;
+		stack<int> tempStack;
+		
+		for(int i = 0; i < size; i++){
+			if(sortedStack.empty()){
+				sortedStack.push(vec[i]);
+			} else {
+				int temp;
+				while(!sortedStack.empty()){
+					if((temp = sortedStack.top()) > vec[i]){
+						break;
+					} else {
+						tempStack.push(temp);
+						sortedStack.pop();
+					}
+				}
+				sortedStack.push(vec[i]);
+				while(!tempStack.empty()){
+					sortedStack.push(tempStack.top());
+					tempStack.pop();
+				}
+			}
+		}
+
+		int j = 0;
+		while(!sortedStack.empty()){
+			vec[(j++)] = sortedStack.top();
+			sortedStack.pop();
+		}
+
+		return isSorted(vec);
+	};
+
 
 	template<typename T>
 	long long Sorter(vector<int>& vec, T sortFunc){
@@ -529,7 +566,7 @@ namespace Sorts{
 			long long lap;
 
 			for (int i = 0; i < NUM_OF_SORTS; i++){
-				if (((i == BUBBLE_SORT || i == SELECTION_SORT || i == INSERTION_SORT) && ps.size <= UNABLEQUAD)
+				if (((i == BUBBLE_SORT || i == SELECTION_SORT || i == INSERTION_SORT || i == STACK_SORT) && ps.size <= UNABLEQUAD)
 					|| (i == SORT_BY_BST || i == QUICK_SORT || i == MERGE_SORT || i == HEAP_SORT)){
 					switch (i){
 					case BUBBLE_SORT:
@@ -552,6 +589,9 @@ namespace Sorts{
 						break;
 					case HEAP_SORT:
 						lap = Sorter(ps.arr, heapSort);
+						break;
+					case STACK_SORT:
+						lap = Sorter(ps.arr, stackSort);
 						break;
 					}
 

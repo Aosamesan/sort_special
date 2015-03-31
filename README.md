@@ -48,7 +48,8 @@ g++ sort.h bst.h sortmain.cpp --std=c++11
 1. Bubble Sort
 2. Selection Sort
 3. Insertion Sort
-4. Quick Sort
-5. Sorting by *Binary Search Tree*
-6. Merge Sort
-7. Heap Sort
+4. Stack Sort	*NEW*
+5. Quick Sort
+6. Sorting by *Binary Search Tree*
+7. Merge Sort
+8. Heap Sort
