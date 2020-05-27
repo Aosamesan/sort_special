@@ -22,7 +22,9 @@ g++ sort.h bst.h sortmain.cpp --std=c++11
 100000</pre>
 * Output
 <div>
+  
 ![EXAMPLE1](https://github.com/Aosamesan/sort_special/blob/master/EXAMPLE1.PNG)
+
 </div>
 </tr>
 </table>
@@ -39,7 +41,9 @@ g++ sort.h bst.h sortmain.cpp --std=c++11
 500000</pre>
 * Output
 <div>
+  
 ![EXAMPLE2](https://github.com/Aosamesan/sort_special/blob/master/EXAMPLE2.PNG)
+
 </div>
 </tr>
 </table>
